@@ -1,12 +1,10 @@
-FROM tailscale/tailscale:latest
+ARG TAG=dummy
+FROM tailscale/tailscale:${TAG}
 
-# COPY init-serve-config /usr/local/bin/init-serve-config
-# RUN chmod +x /usr/local/bin/init-serve-config
 COPY init-serve-config.sh /usr/local/bin
-RUN ln -s /usr/local/bin/init-serve-config.sh /usr/local/bin/init-serve-config
-RUN chmod +x /usr/local/bin/init-serve-config.sh
+
+RUN chmod +x /usr/local/bin/init-serve-config.sh && ln -s /usr/local/bin/init-serve-config.sh /usr/local/bin/init-serve-config
 
 ENV TS_SERVE_CONFIG=/tmp/config
 
 CMD ["sh", "-c", "/usr/local/bin/init-serve-config && /usr/local/bin/containerboot"]
-# CMD ["sh", "-c", "/usr/local/bin/init-serve-config && /usr/local/bin/containerboot"]
