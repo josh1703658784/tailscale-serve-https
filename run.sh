@@ -20,6 +20,9 @@ set -o pipefail             # exit script if anything fails in pipe
 
 
 serve(){
+  # only one configuration allowed with this wrapper
+  # remove any previous config
+  tailscale serve reset
   if [ -n "${TS_FUNNEL}" ]; then
     echo '[-] TS_FUNNEL is defined; will continue with command "tailscale funnel";'
     tailscale funnel --"${TS_SERVE_MODE}"=443 http://localhost:"${TS_SERVE_PORT}"
