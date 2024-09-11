@@ -1,10 +1,9 @@
 ARG TAG=dummy
 FROM tailscale/tailscale:${TAG}
 
-COPY init-serve-config.sh /usr/local/bin
+RUN apk update && apk add bash
 
-RUN chmod +x /usr/local/bin/init-serve-config.sh && ln -s /usr/local/bin/init-serve-config.sh /usr/local/bin/init-serve-config
+COPY ./run.sh /usr/local/bin/run
+RUN chmod +x /usr/local/bin/run
 
-ENV TS_SERVE_CONFIG=/tmp/config
-
-CMD ["sh", "-c", "/usr/local/bin/init-serve-config && /usr/local/bin/containerboot"]
+ENTRYPOINT [ "bash", "/usr/local/bin/run" ]
